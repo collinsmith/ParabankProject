@@ -5,7 +5,7 @@
 	android:layout_height="0dp"
 	android:layout_weight="1"
 	android:orientation="vertical"
-	android:background="@color/parabank_foreground"
+	android:background="@drawable/border"
 >
 	<include
 		layout="@layout/empty_list_layout"
@@ -22,7 +22,7 @@
 	<ListView
 		style="@style/style_listview"
 		android:id="@+id/lvQueryResults"
-		android:dividerHeight="3dp"
+		android:dividerHeight="@dimen/border_width"
         android:divider="@color/parasoft_blue"
 	/>
 </LinearLayout>

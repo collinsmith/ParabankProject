@@ -32,7 +32,7 @@
 
     <string name="login_welcome_back">Hello %1$s, welcome back!</string>
 
-    <string name="account_info">User Information</string>
+    <string name="account_info">User Information:</string>
 
     <string name="firstName">First Name:</string>
     <string name="lastName">Last Name:</string>

@@ -17,46 +17,54 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@android:color/transparent"
-            android:gravity="top|left"
-            android:padding="10dp"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
             >
-            <ImageView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:contentDescription="Parabank Logo"
-                android:src="@drawable/parabank_logo"
-            />
-            <TextView
-                style="@style/style_textview"
-                android:text="@string/host"
-                android:labelFor="@+id/username"
-            />
-            <EditText
-                style="@style/style_edittext"
-                android:id="@+id/etHost"
-                android:hint="@string/example_host"
-                android:layout_marginBottom="@dimen/login_component_spacing"
-                android:inputType="textUri"
-            />
-            <TextView
-                style="@style/style_textview"
-                android:text="@string/port"
-                android:labelFor="@+id/etPort"
-            />
-            <EditText
-                style="@style/style_edittext"
-                android:id="@+id/etPort"
-                android:hint="@string/example_port"
-                android:inputType="number"
-                android:layout_marginBottom="@dimen/login_component_spacing"
-            />
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:gravity="top|left"
+                android:padding="10dp"
+                >
+                <include layout="@layout/parabank_banner_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/parabank_banner_height"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin"
+                    />
+                <TextView
+                    style="@style/style_textview"
+                    android:text="@string/host"
+                    android:labelFor="@+id/username"
+                />
+                <EditText
+                    style="@style/style_edittext"
+                    android:id="@+id/etHost"
+                    android:hint="@string/example_host"
+                    android:layout_marginBottom="@dimen/login_component_spacing"
+                    android:inputType="textUri"
+                />
+                <TextView
+                    style="@style/style_textview"
+                    android:text="@string/port"
+                    android:labelFor="@+id/etPort"
+                />
+                <EditText
+                    style="@style/style_edittext"
+                    android:id="@+id/etPort"
+                    android:hint="@string/example_port"
+                    android:inputType="number"
+                    android:layout_marginBottom="@dimen/login_component_spacing"
+                />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/parasoft_blue"
+        android:layout_height="@dimen/border_width"
+        android:background="@color/border_color"
         />
     <LinearLayout
         android:layout_width="match_parent"

@@ -11,6 +11,7 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/button_background</item>
     </style>
 
     <style
@@ -40,6 +41,9 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/parasoft_blue</item>
+        <item name="android:background">@drawable/edit_text_background</item>
+        <item name="android:textCursorDrawable">@null</item>
+        <item name="android:padding">8dp</item>
     </style>
 
     <style

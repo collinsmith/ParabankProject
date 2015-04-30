@@ -17,48 +17,64 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@android:color/transparent"
-            android:gravity="top|left"
-            android:padding="10dp"
-        >
-            <ImageView
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            >
+            <include layout="@layout/parabank_banner_layout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/parabank_banner_height"
+                android:layout_weight="0.50"
+                />
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:contentDescription="Parabank Logo"
-                android:src="@drawable/parabank_logo"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:gravity="top|left"
+                android:padding="10dp"
+                >
+                <TextView
+                    style="@style/style_textview"
+                    android:text="@string/username"
+                    android:labelFor="@+id/etUsername"
                 />
-            <TextView
-                style="@style/style_textview"
-                android:text="@string/username"
-                android:labelFor="@+id/etUsername"
-            />
-            <EditText
-                style="@style/style_edittext_username"
-                android:id="@+id/etUsername"
-                android:layout_marginBottom="@dimen/login_component_spacing"
-            />
-            <TextView
-                style="@style/style_textview"
-                android:text="@string/password"
-                android:labelFor="@+id/etPassword"
-               />
-            <EditText
-                style="@style/style_edittext_password"
-                android:id="@+id/etPassword"
-                android:layout_marginBottom="@dimen/login_component_spacing"
-            />
-            <Button
-                style="@style/style_button"
-                android:id="@+id/btnLogin"
-                android:text="@string/login_action_login"
-                android:textColor="@color/white"
-            />
+                <EditText
+                    style="@style/style_edittext_username"
+                    android:id="@+id/etUsername"
+                    android:layout_marginBottom="@dimen/login_component_spacing"
+                />
+                <TextView
+                    style="@style/style_textview"
+                    android:text="@string/password"
+                    android:labelFor="@+id/etPassword"
+                   />
+                <EditText
+                    style="@style/style_edittext_password"
+                    android:id="@+id/etPassword"
+                    android:layout_marginBottom="@dimen/login_component_spacing"
+                />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/login_component_spacing"
+                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/login_component_spacing"
+                    />
+                <Button
+                    style="@style/style_button"
+                    android:id="@+id/btnLogin"
+                    android:text="@string/login_action_login"
+                    android:textColor="@color/white"
+                />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/parasoft_blue"
+        android:layout_height="@dimen/border_width"
+        android:background="@color/border_color"
         />
     <LinearLayout
         android:layout_width="match_parent"
