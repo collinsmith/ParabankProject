@@ -3,16 +3,22 @@
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
 
-    <color name="parabank_background">#FFFFFF</color>
+    <color name="parabank_background">@color/light_grey</color>
     <color name="parabank_foreground">@color/parasoft_blue</color>
 
     <color name="parasoft_blue">#183b59</color>
     <color name="parabank_blue_transparent">#CC183b59</color>
+
+    <color name="parasoft_blue_light">#245a87</color>
+    <color name="parasoft_blue_light_light">#3178b6</color>
+    <color name="parasoft_blue_light_light_light">#5196d0</color>
 
     <color name="parasoft_gold">#ec8900</color>
     <color name="parabank_gold_transparent">#CCec8900</color>
     <color name="parasoft_gold_darker">#c57200</color>
 
     <color name="border_color">@color/parasoft_blue</color>
-    <color name="light_grey">#e5e5e5</color>
+    <color name="light_grey">#f1f1f1</color>
+
+    <color name="bottom_actionbar_button">@color/white</color>
 </resources>

@@ -64,23 +64,26 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/border_width"
-        android:background="@color/border_color"
+        android:background="@drawable/bottom_actionbar"
         />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="bottom|center"
-        android:background="@android:color/transparent"
-        android:padding="5dp"
+        android:background="@color/parasoft_blue_light_light"
         >
         <ImageButton
             style="@style/style_imagebutton"
-            android:layout_height="48dp"
-            android:layout_width="48dp"
+            android:layout_height="60dp"
+            android:layout_width="60dp"
             android:scaleType="fitXY"
             android:id="@+id/btnRejectChanges"
             android:src="@mipmap/ic_action_cancel"
+            android:padding="5dp"
+            android:cropToPadding="true"
+            android:tint="@color/bottom_actionbar_button"
+            android:tintMode="src_in"
             />
         <LinearLayout
             android:layout_height="wrap_content"
@@ -89,11 +92,15 @@
             />
         <ImageButton
             style="@style/style_imagebutton"
-            android:layout_height="48dp"
-            android:layout_width="48dp"
+            android:layout_height="60dp"
+            android:layout_width="60dp"
             android:scaleType="fitXY"
             android:id="@+id/btnAcceptChanges"
             android:src="@mipmap/ic_action_accept"
+            android:padding="5dp"
+            android:cropToPadding="true"
+            android:tint="@color/bottom_actionbar_button"
+            android:tintMode="src_in"
             />
     </LinearLayout>
 </LinearLayout>
