@@ -15,9 +15,9 @@
     <color name="parasoft_blue_light_light">#3178b6</color>
     <color name="parasoft_blue_light_light_light">#5196d0</color>
 
-    <color name="parasoft_gold">#ec8900</color>
-    <color name="parabank_gold_transparent">#CCec8900</color>
-    <color name="parasoft_gold_darker">#c57200</color>
+    <color name="parasoft_gold">#fda231</color>
+    <color name="parabank_gold_transparent">#CCfda231</color>
+    <color name="parasoft_gold_darker">#ca8125</color>
 
     <color name="border_color">@color/parasoft_blue</color>
     <color name="light_grey">#f1f1f1</color>

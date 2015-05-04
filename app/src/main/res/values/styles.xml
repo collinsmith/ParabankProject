@@ -41,7 +41,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/parasoft_blue</item>
-        <item name="android:background">@drawable/edit_text_background</item>
+        <item name="android:background">@drawable/edit_text_background_2</item>
         <item name="android:textCursorDrawable">@null</item>
         <item name="android:padding">8dp</item>
     </style>
@@ -52,6 +52,7 @@
         >
         <item name="android:inputType">textEmailAddress</item>
         <!--<item name="android:hint">@string/example_username</item>-->
+        <item name="android:background">@drawable/edit_text_background</item>
     </style>
 
     <style
@@ -60,6 +61,7 @@
         >
         <item name="android:inputType">textPassword</item>
         <!--<item name="android:hint">@string/example_password</item>-->
+        <item name="android:background">@drawable/edit_text_background</item>
     </style>
 
     <style
