@@ -164,7 +164,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="bottom|center"
-        android:background="@color/parasoft_blue_light_light"
+        android:background="@color/bottom_actionbar_background"
         >
         <ImageButton
             style="@style/style_imagebutton"
@@ -175,7 +175,7 @@
             android:src="@mipmap/ic_action_cancel"
             android:padding="5dp"
             android:cropToPadding="true"
-            android:tint="@color/bottom_actionbar_button"
+            android:tint="@color/bottom_actionbar_button_no"
             android:tintMode="src_in"
             />
         <LinearLayout
@@ -192,7 +192,7 @@
             android:src="@mipmap/ic_action_accept"
             android:padding="5dp"
             android:cropToPadding="true"
-            android:tint="@color/bottom_actionbar_button"
+            android:tint="@color/bottom_actionbar_button_yes"
             android:tintMode="src_in"
             />
     </LinearLayout>

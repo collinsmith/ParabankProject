@@ -71,7 +71,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="bottom|center"
-        android:background="@color/parasoft_blue_light_light"
+        android:background="@color/bottom_actionbar_background"
         >
         <ImageButton
             style="@style/style_imagebutton"

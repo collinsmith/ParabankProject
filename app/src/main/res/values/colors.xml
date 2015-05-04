@@ -2,6 +2,8 @@
 <resources>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+    <color name="red">#ff0000</color>
+    <color name="green">#00ff00</color>
 
     <color name="parabank_background">@color/light_grey</color>
     <color name="parabank_foreground">@color/parasoft_blue</color>
@@ -20,5 +22,8 @@
     <color name="border_color">@color/parasoft_blue</color>
     <color name="light_grey">#f1f1f1</color>
 
+    <color name="bottom_actionbar_background">@color/parasoft_blue_light_light</color>
     <color name="bottom_actionbar_button">@color/white</color>
+    <color name="bottom_actionbar_button_yes">@color/green</color>
+    <color name="bottom_actionbar_button_no">@color/red</color>
 </resources>
