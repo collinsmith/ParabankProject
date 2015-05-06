@@ -1,5 +1,7 @@
 package com.parabank.parasoft.app.android;
 
+import android.app.AlertDialog;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -9,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.parabank.parasoft.app.android.adts.Account;
@@ -16,7 +19,7 @@ import com.parabank.parasoft.app.android.adts.User;
 
 import java.util.List;
 
-public class AccountsAdapter extends ArrayAdapter<Account> {
+public class AccountsAdapter extends ArrayAdapter<Account> implements View.OnClickListener {
     private final User user;
 
     public AccountsAdapter(Context context, User user, List<Account> accounts) {
@@ -26,9 +29,11 @@ public class AccountsAdapter extends ArrayAdapter<Account> {
 
     private static class ViewHolder {
         final TextView tvAccountInfo;
+        final ImageButton btnRequestLoan;
 
-        ViewHolder(TextView tvAccountInfo) {
+        ViewHolder(TextView tvAccountInfo, ImageButton btnRequestLoan) {
             this.tvAccountInfo = tvAccountInfo;
+            this.btnRequestLoan = btnRequestLoan;
         }
     }
 
@@ -45,7 +50,8 @@ public class AccountsAdapter extends ArrayAdapter<Account> {
         view = LayoutInflater.from(getContext()).inflate(R.layout.account_list_item_layout, null);
 
         TextView tvAccountInfo = (TextView)view.findViewById(R.id.tvAccountInfo);
-        view.setTag(new ViewHolder(tvAccountInfo));
+        ImageButton btnRequestLoan = (ImageButton)view.findViewById(R.id.btnRequestLoan);
+        view.setTag(new ViewHolder(tvAccountInfo, btnRequestLoan));
 
         //tvItemText.setSelected(true);
         //}
@@ -88,9 +94,22 @@ public class AccountsAdapter extends ArrayAdapter<Account> {
                 builder.append(text);
 
                 holder.tvAccountInfo.setText(builder);
+
+                btnRequestLoan.setOnClickListener(this);
             }
         }
 
         return view;
+    }
+
+    @Override
+    public void onClick(View v) {
+        ViewHolder holder = (ViewHolder)v.getTag();
+
+        AlertDialog requestLoanDialog = new AlertDialog.Builder(getContext())
+                .setTitle("Request Loan")
+                .create();
+
+        requestLoanDialog.show();
     }
 }

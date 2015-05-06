@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -18,10 +19,14 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.parabank.parasoft.app.android.adts.Address;
 import com.parabank.parasoft.app.android.adts.Customer;
+import com.parabank.parasoft.app.android.adts.Setting;
 import com.parabank.parasoft.app.android.adts.User;
 
 import org.apache.http.Header;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.parabank.parasoft.app.android.Constants.INTENT_PARABANK_URI;
 import static com.parabank.parasoft.app.android.Constants.INTENT_USER;

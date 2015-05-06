@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:baselineAligned="false"
+    android:background="@color/parabank_background"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:background="@android:color/transparent"
+        android:gravity="top|left"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@android:color/transparent"
+            android:gravity="top|left"
+            android:padding="10dp"
+            >
+            <include layout="@layout/parabank_banner_layout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/parabank_banner_height"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                />
+            <ListView
+                style="@style/style_listview"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:descendantFocusability="afterDescendants"
+                android:id="@+id/lvSettings"
+                android:dividerHeight="4dp"
+                android:divider="@android:color/transparent"
+                />
+        </LinearLayout>
+    </LinearLayout>
+    <include layout="@layout/bottom_actionbar_layout"/>
+</LinearLayout>
