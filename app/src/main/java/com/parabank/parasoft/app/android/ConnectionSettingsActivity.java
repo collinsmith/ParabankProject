@@ -2,13 +2,18 @@ package com.parabank.parasoft.app.android;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import com.parabank.parasoft.app.android.utils.Parabank;
+
+import static com.parabank.parasoft.app.android.Constants.INTENT_PARABANK_URI;
 import static com.parabank.parasoft.app.android.Constants.PREFS_PARABANK;
 import static com.parabank.parasoft.app.android.Constants.PREFS_PARABANK_HOST;
 import static com.parabank.parasoft.app.android.Constants.PREFS_PARABANK_PORT;
@@ -19,7 +24,8 @@ public class ConnectionSettingsActivity extends Activity implements View.OnClick
     private ImageButton btnAcceptChanges;
     private ImageButton btnRejectChanges;
 
-    private SharedPreferences preferences;
+
+    private Uri parabankUri;
 
     /**
      * {@inheritDoc}
@@ -29,20 +35,22 @@ public class ConnectionSettingsActivity extends Activity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.connection_settings_activity_layout);
 
-        preferences = getSharedPreferences(PREFS_PARABANK, MODE_PRIVATE);
+        parabankUri = getIntent().getParcelableExtra(INTENT_PARABANK_URI);
 
         etHost = (EditText)findViewById(R.id.etHost);
-        etHost.setText(preferences.getString(PREFS_PARABANK_HOST, getResources().getString(R.string.example_host)));
+        etHost.setText(parabankUri.getHost());
         etHost.selectAll();
 
         etPort = (EditText)findViewById(R.id.etPort);
-        etPort.setText(preferences.getString(PREFS_PARABANK_PORT, getResources().getString(R.string.example_port)));
+        etPort.setText(Integer.toString(parabankUri.getPort()));
 
         btnAcceptChanges = (ImageButton)findViewById(R.id.btnAcceptChanges);
         btnAcceptChanges.setOnClickListener(this);
+        btnAcceptChanges.setVisibility(View.VISIBLE);
 
         btnRejectChanges = (ImageButton)findViewById(R.id.btnRejectChanges);
         btnRejectChanges.setOnClickListener(this);
+        btnRejectChanges.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -55,10 +63,11 @@ public class ConnectionSettingsActivity extends Activity implements View.OnClick
         imm.hideSoftInputFromWindow(etPort.getWindowToken(), 0);
         switch(v.getId()) {
             case R.id.btnAcceptChanges:
-                preferences.edit()
-                    .putString(PREFS_PARABANK_HOST, etHost.getText().toString())
-                    .putString(PREFS_PARABANK_PORT, etPort.getText().toString())
-                    .apply();
+                parabankUri = Parabank.updateUri(this, "http", etHost.getText().toString(), etPort.getText().toString());
+
+                Intent i = new Intent();
+                i.putExtra(INTENT_PARABANK_URI, parabankUri);
+                setResult(Activity.RESULT_OK, i);
                 finish();
                 break;
             case R.id.btnRejectChanges:

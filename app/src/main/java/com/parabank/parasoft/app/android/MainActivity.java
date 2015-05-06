@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -26,15 +27,15 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.parabank.parasoft.app.android.Constants.INTENT_PARABANK_URI;
 import static com.parabank.parasoft.app.android.Constants.INTENT_USER;
-import static com.parabank.parasoft.app.android.Constants.PREFS_PARABANK;
-import static com.parabank.parasoft.app.android.Constants.PREFS_PARABANK_HOST;
-import static com.parabank.parasoft.app.android.Constants.PREFS_PARABANK_PORT;
 
 public class MainActivity extends Activity implements View.OnClickListener {
     static final int RESULT_EDIT_ACCOUNT_INFO = 0x000000001;
 
     private User user;
+    private Uri parabankUri;
+    private Uri accountsInfoUri;
 
     private TextView tvFullName;
     private TextView tvAddress;
@@ -50,70 +51,40 @@ public class MainActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity_layout);
 
+        user = getIntent().getParcelableExtra(INTENT_USER);
+        parabankUri = getIntent().getParcelableExtra(INTENT_PARABANK_URI);
+        accountsInfoUri = parabankUri.buildUpon()
+                .appendPath("customers")
+                .appendPath(Long.toString(user.getCustomer().getId()))
+                .appendPath("accounts")
+                .appendQueryParameter("_type", "json")
+                .build();
+
         tvFullName = (TextView)findViewById(R.id.tvFullName);
         tvAddress = (TextView)findViewById(R.id.tvAddress);
         llProgressBar = (LinearLayout)findViewById(R.id.llProgressBar);
 
         btnLogout = (ImageButton)findViewById(R.id.btnLogout);
         btnLogout.setOnClickListener(this);
+        btnLogout.setVisibility(View.VISIBLE);
 
         btnEditAccountInfo = (ImageButton)findViewById(R.id.btnEditAccountInfo);
         btnEditAccountInfo.setOnClickListener(this);
+        btnEditAccountInfo.setVisibility(View.VISIBLE);
 
         loadCustomerInfo();
         loadAccounts();
     }
 
     private void loadCustomerInfo() {
-        user = getIntent().getParcelableExtra(INTENT_USER);
         tvFullName.setText(user.getCustomer().getFullName());
         tvAddress.setText(user.getCustomer().getAddress().getAddress());
     }
 
     private void loadAccounts() {
-        user = getIntent().getParcelableExtra(INTENT_USER);
-        SharedPreferences preferences = getSharedPreferences(PREFS_PARABANK, MODE_PRIVATE);
-        //String protocol = preferences.getString(PREFS_PARABANK_PROTOCOL, getResources().getString(R.string.example_protocol));
-        String host = preferences.getString(PREFS_PARABANK_HOST, getResources().getString(R.string.example_host));
-        String port = preferences.getString(PREFS_PARABANK_PORT, getResources().getString(R.string.example_port));
-
         llProgressBar.setVisibility(View.VISIBLE);
-        AsyncHttpClient client = new AsyncHttpClient();
-        String accountInfoURL = Connection.generateAccountInfoURL(host, port, Long.toString(user.getCustomer().getId()));
-        client.get(accountInfoURL, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                List<Account> accounts = new ArrayList<>();
-
-                try {
-                    JSONObject obj;
-                    JSONArray jsonArray = response.getJSONArray("account");
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        obj = jsonArray.getJSONObject(i);
-                        accounts.add(new Account(obj));
-                    }
-                } catch (JSONException e) {
-                    AlertDialog.Builder errorDialog = new AlertDialog.Builder(MainActivity.this);
-                    errorDialog.setMessage(e.getMessage());
-                    errorDialog.setPositiveButton(R.string.global_action_okay, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            //...
-                        }
-                    });
-                }
-
-                AccountsAdapter adapter = new AccountsAdapter(MainActivity.this, user, accounts);
-                ListView lvAccountsList = (ListView)findViewById(R.id.lvQueryResults);
-                if (adapter.isEmpty()) {
-                    LinearLayout llEmptyList = (LinearLayout)findViewById(R.id.llEmptyList);
-                    llEmptyList.setVisibility(View.VISIBLE);
-                } else {
-                    lvAccountsList.setAdapter(adapter);
-                }
-
-                llProgressBar.setVisibility(View.GONE);
-            }
-        });
+        final AsyncHttpClient client = new AsyncHttpClient();
+        client.get(accountsInfoUri.toString(), new GetAccountsResponseHandler(this, user, llProgressBar));
     }
 
     /**
@@ -127,7 +98,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.btnEditAccountInfo:
                 Intent i = new Intent(this, EditAccountInfoActivity.class);
-                i.putExtra(INTENT_USER, getIntent().getParcelableExtra(INTENT_USER));
+                i.putExtra(INTENT_USER, user);
+                i.putExtra(INTENT_PARABANK_URI, parabankUri);
                 startActivityForResult(i, RESULT_EDIT_ACCOUNT_INFO);
                 break;
         }
@@ -144,7 +116,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     case RESULT_CANCELED:
                         break;
                     case RESULT_OK:
-                        getIntent().putExtra(INTENT_USER, data.getParcelableExtra(INTENT_USER));
+                        user = data.getParcelableExtra(INTENT_USER);
                         loadCustomerInfo();
                         break;
                 }

@@ -23,7 +23,7 @@
     <string name="port">Port:</string>
     <string name="apply">Apply</string>
 
-    <string name="example_protocol">http://</string>
+    <string name="example_protocol">http</string>
     <string name="example_host">parabank.parasoft.com</string>
     <string name="example_port">80</string>
 

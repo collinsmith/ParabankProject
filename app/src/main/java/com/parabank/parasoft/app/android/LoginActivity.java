@@ -1,12 +1,10 @@
 package com.parabank.parasoft.app.android;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
@@ -17,24 +15,21 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.JsonHttpResponseHandler;
-import com.parabank.parasoft.app.android.adts.Customer;
 import com.parabank.parasoft.app.android.adts.User;
+import com.parabank.parasoft.app.android.utils.Parabank;
 
-import org.apache.http.Header;
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import static com.parabank.parasoft.app.android.Constants.INTENT_PARABANK_URI;
 import static com.parabank.parasoft.app.android.Constants.INTENT_USER;
-import static com.parabank.parasoft.app.android.Constants.PREFS_PARABANK;
-import static com.parabank.parasoft.app.android.Constants.PREFS_PARABANK_HOST;
-import static com.parabank.parasoft.app.android.Constants.PREFS_PARABANK_PORT;
 
 public class LoginActivity extends Activity implements View.OnClickListener {
+    static final int RESULT_EDIT_CONNECTION_SETTINGS = 0x000000001;
+
     private EditText etUsername;
     private EditText etPassword;
     private Button btnLogin;
     private ImageButton btnConnectionSettings;
+
+    private Uri parabankUri;
 
     /**
      * {@inheritDoc}
@@ -43,6 +38,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity_layout);
+
+        parabankUri = Parabank.getUpdatedUri(this);
 
         etUsername = (EditText)findViewById(R.id.etUsername);
 
@@ -54,6 +51,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
         btnConnectionSettings = (ImageButton)findViewById(R.id.btnConnectionSettings);
         btnConnectionSettings.setOnClickListener(this);
+        btnConnectionSettings.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -84,75 +82,45 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         loadingDialog.setCancelable(true);
         loadingDialog.show();
 
-        SharedPreferences preferences = getSharedPreferences(PREFS_PARABANK, MODE_PRIVATE);
-        //String protocol = preferences.getString(PREFS_PARABANK_PROTOCOL, getResources().getString(R.string.example_protocol));
-        String host = preferences.getString(PREFS_PARABANK_HOST, getResources().getString(R.string.example_host));
-        String port = preferences.getString(PREFS_PARABANK_PORT, getResources().getString(R.string.example_port));
+        Uri loginUri = parabankUri.buildUpon()
+                .appendPath("login")
+                .appendPath(username)
+                .appendPath(password)
+                .appendQueryParameter("_type", "json")
+                .build();
 
-        String loginUrl = Connection.generateLoginURL(host, port, username, password);
         final AsyncHttpClient client = new AsyncHttpClient();
-        client.get(loginUrl, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject jsonObject) {
-                if (!loadingDialog.isShowing()) {
-                    return;
-                }
-
-                loadingDialog.dismiss();
-
-                try {
-                    JSONObject obj = jsonObject.getJSONObject("customer");
-                    login(new User(username, password, new Customer(obj)));
-                } catch (JSONException e) {
-                    AlertDialog.Builder errorDialog = new AlertDialog.Builder(LoginActivity.this);
-                    errorDialog.setTitle(R.string.dialog_login_error_title);
-                    errorDialog.setMessage(e.getMessage());
-                    errorDialog.setPositiveButton(R.string.global_action_okay, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            //...
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                onFailure(statusCode, headers, throwable.getMessage(), throwable);
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                if (!loadingDialog.isShowing()) {
-                    return;
-                }
-
-                loadingDialog.dismiss();
-
-                AlertDialog.Builder errorDialog = new AlertDialog.Builder(LoginActivity.this);
-                errorDialog.setTitle(R.string.dialog_login_error_title);
-                errorDialog.setMessage(String.format("%d - %s", statusCode, responseString.isEmpty() ? throwable.getMessage() : responseString));
-                errorDialog.setPositiveButton(R.string.global_action_okay, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        //...
-                    }
-                });
-
-                errorDialog.show();
-            }
-        });
+        client.get(loginUri.toString(), new LoginResponseHandler(this, username, password, loadingDialog));
     }
 
     private void editConnectionSettings() {
         Intent i = new Intent(this, ConnectionSettingsActivity.class);
-        startActivity(i);
+        i.putExtra(INTENT_PARABANK_URI, parabankUri);
+        startActivityForResult(i, RESULT_EDIT_CONNECTION_SETTINGS);
     }
 
-    private void login(User user) {
+    void login(User user) {
         String welcomeMessage = getString(R.string.login_welcome_back, user.getCustomer().getFirstName());
         Toast.makeText(this, welcomeMessage, Toast.LENGTH_LONG).show();
 
         Intent i = new Intent(this, MainActivity.class);
         i.putExtra(INTENT_USER, user);
+        i.putExtra(INTENT_PARABANK_URI, parabankUri);
         startActivity(i);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case RESULT_EDIT_CONNECTION_SETTINGS:
+                if (resultCode != Activity.RESULT_OK) {
+                    break;
+                }
+
+                parabankUri = data.getParcelableExtra(INTENT_PARABANK_URI);
+                break;
+            default:
+                break;
+        }
     }
 }

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/border_width"
+        android:background="@drawable/bottom_actionbar"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="bottom|center"
+        android:background="@color/bottom_actionbar_background"
+        >
+        <ImageButton
+            style="@style/style_bottomActionBarButton"
+            android:id="@+id/btnRejectChanges"
+            android:src="@mipmap/ic_action_cancel"
+            android:tint="@color/bottom_actionbar_button_no"
+            />
+        <ImageButton
+            style="@style/style_bottomActionBarButton"
+            android:id="@+id/btnLogout"
+            android:src="@mipmap/ic_action_logout"
+            />
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            />
+
+        <ImageButton
+            style="@style/style_bottomActionBarButton"
+            android:id="@+id/btnEditAccountInfo"
+            android:src="@mipmap/ic_action_edit"
+            />
+        <ImageButton
+            style="@style/style_bottomActionBarButton"
+            android:id="@+id/btnConnectionSettings"
+            android:src="@mipmap/ic_action_settings"
+            />
+        <ImageButton
+            style="@style/style_bottomActionBarButton"
+            android:id="@+id/btnAcceptChanges"
+            android:src="@mipmap/ic_action_accept"
+            android:tint="@color/bottom_actionbar_button_yes"
+            />
+    </LinearLayout>
+</LinearLayout>

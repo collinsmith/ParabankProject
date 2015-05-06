@@ -18,8 +18,9 @@
         name="style_imagebutton"
         parent="@android:style/Widget.Holo.ImageButton"
         >
-        <item name="android:layout_width">48dp</item>
-        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_width">60dp</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:scaleType">fitXY</item>
         <item name="android:background">?android:attr/selectableItemBackground</item>
     </style>
 
@@ -73,5 +74,15 @@
         <item name="android:background">@android:color/transparent</item>
         <!--<item name="android:divider">@color/gray</item>
         <item name="android:dividerHeight">2dp</item>-->
+    </style>
+
+    <style
+        name="style_bottomActionBarButton"
+        parent="@style/style_imagebutton">
+        <item name="android:visibility">gone</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:cropToPadding">true</item>
+        <item name="android:tint">@color/bottom_actionbar_button</item>
+        <item name="android:tintMode">src_in</item>
     </style>
 </resources>

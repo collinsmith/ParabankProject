@@ -30,5 +30,11 @@
 			android:focusable="true"
 			android:focusableInTouchMode="true"
 		/>
+		<ImageButton
+			style="@style/style_imagebutton"
+			android:layout_height="48dp"
+			android:layout_width="48dp"
+			android:scaleType="fitXY"
+			android:src="@mipmap/ic_action_requestloan"/>
 	</LinearLayout>
 </LinearLayout>

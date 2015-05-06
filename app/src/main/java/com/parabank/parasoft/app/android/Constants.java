@@ -1,5 +1,7 @@
 package com.parabank.parasoft.app.android;
 
+import android.net.Uri;
+
 /**
  * Interface which defines constant variables used throughout the app.
  *
@@ -37,4 +39,5 @@ public interface Constants {
      * object data.
      */
     String INTENT_USER = "user";
+    String INTENT_PARABANK_URI = "parabankConnection";
 }
